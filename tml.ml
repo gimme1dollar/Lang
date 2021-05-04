@@ -27,31 +27,3 @@ type exp =                        (* expressions *)
   | Plus                                (* addition *)
   | Minus                               (* subtraction *)
   | Eq                                  (* equality *)
-
-let rec tp2string t = match t with
-    Bool -> "bool"
-  | Int -> "int"
-  | Fun (tp1, tp2) -> (tp2string tp1) ^ " -> " ^ (tp2string tp2)
-  | Prod (tp1, tp2) -> (tp2string tp1) ^ " * " ^ (tp2string tp2)
-  | Unit -> "unit"
-  | Sum (tp1, tp2) -> (tp2string tp1) ^ " + " ^ (tp2string tp2)
-
-let rec lam2string e = match e with
-    Var x -> x
-  | Eunit -> "()"
-  | True -> "true"
-  | False -> "false"
-  | Plus -> "+"
-  | Minus -> "-"
-  | Eq -> "="
-  | Lam (v, tp, e) -> "(fn " ^ v ^ " : " ^(tp2string tp) ^ " => " ^ (lam2string e) ^ ")" 
-  | App (e1, e2) -> "(" ^ (lam2string e1) ^ " " ^ (lam2string e2) ^ ")" 
-  | Pair (e1, e2) -> "(" ^ (lam2string e1) ^ ", " ^ (lam2string e2) ^ ")" 
-  | Fst e' -> "(fst " ^ (lam2string e') ^ ")"
-  | Snd e' -> "(snd " ^ (lam2string e') ^ ")"
-  | Inl (e', tp) -> "(inl (" ^ (tp2string tp) ^ ") " ^ (lam2string e') ^ ")" 
-  | Inr (e', tp) -> "(inr (" ^ (tp2string tp) ^ ") " ^ (lam2string e') ^ ")" 
-  | Case (e', v1, e1, v2, e2) -> "(case " ^ (lam2string e') ^ " of inl " ^ v1 ^ " => " ^ (lam2string e1) ^ " | " ^ " inr " ^ v2 ^ " => " ^ (lam2string e2) ^ ")"
-  | Fix (v, tp, e') -> "(fix " ^ v ^ " : " ^ (tp2string tp) ^ " => " ^ (lam2string e') ^")"
-  | Ifthenelse (e1, e2, e3) -> "(if " ^ (lam2string e1) ^ " then " ^ (lam2string e2) ^ " else " ^ (lam2string e3) ^ ")"
-  | Num i -> string_of_int i
